@@ -22,9 +22,9 @@ type TreeNode struct {
 
 func TestTree(t *testing.T) {
 	// nodeF := &TreeNode{data: "f", left: nil, right: nil}
-	nodeE := &TreeNode{data: "e", left: nil, right: nil}
-	nodeD := &TreeNode{data: "d", left: nil, right: nil}
-	nodeB := &TreeNode{data: "b", left: nodeD, right: nodeE}
+	// nodeE := &TreeNode{data: "e", left: nil, right: nil}
+	// nodeD := &TreeNode{data: "d", left: nil, right: nil}
+	nodeB := &TreeNode{data: "b", left: nil, right: nil}
 	// nodeC := &TreeNode{data: "c", left: nodeF, right: nil}
 	nodeA := &TreeNode{data: "a", left: nodeB, right: nil}
 	//1.二叉樹的最大深度
@@ -37,6 +37,8 @@ func TestTree(t *testing.T) {
 	log.Println("二叉树第k层节点个数", numOfLevelTreeNode(nodeA, 3))
 	//5.判断平衡二叉树
 	log.Println("判断平衡二叉树", isBalancedTree(nodeA))
+	//5.判断完全二叉树
+	log.Println("判断完全二叉树", isCompleteTree(nodeA))
 }
 
 /*
@@ -117,6 +119,40 @@ func isBalancedTree(node *TreeNode) bool {
 		return isBalancedTree(node.left) && isBalancedTree(node.right)
 	}
 	return false
+}
+
+/**
+* 判断是否是完全二叉树
+* 除最后一层，其他所有的节点都是满的，且最后一层只缺少若干右边的节点
+*
+ */
+func isCompleteTree(root *TreeNode) bool {
+	var nodes []TreeNodeNo
+	preNo := 0
+	no := 1
+	nodes = append(nodes, TreeNodeNo{node: root, no: no})
+	for len(nodes) > 0 {
+		node := nodes[0]
+		if preNo+1 != node.no {
+			return false
+		}
+		nodes = nodes[1:]
+		no++
+		if node.node.left != nil {
+			nodes = append(nodes, TreeNodeNo{node: node.node.left, no: no})
+		}
+		no++
+		if node.node.right != nil {
+			nodes = append(nodes, TreeNodeNo{node: node.node.right, no: no})
+		}
+		preNo = node.no
+	}
+	return false
+}
+
+type TreeNodeNo struct {
+	node *TreeNode
+	no   int
 }
 
 func max(a, b int) int {
