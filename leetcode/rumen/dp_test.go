@@ -42,4 +42,27 @@ func TestMaxSubArray(t *testing.T) {
 	println(maxSubArray([]int{-2, 1, -3, 4, -1, 2, 1, -5, 4}))
 }
 
+/**
+输入： 2
+输出： 2
+解释： 有两种方法可以爬到楼顶。
+1.  1 阶 + 1 阶
+2.  2 阶
+*/
 
+/**
+  2 3 5 8
+*/
+func climbStairs(n int) int {
+	p, q, r := 0, 0, 1
+	for i := 1; i <= n; i++ {
+		p = q
+		q = r
+		r = p + q
+	}
+	return r
+}
+
+func TestCclimbStairs(t *testing.T) {
+	println(climbStairs(2))
+}
